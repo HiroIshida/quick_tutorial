@@ -64,7 +64,9 @@ Then the following code will solver the IK:
 <img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_4.png" alt="none" title="day1_4" width="200">
 </div>
 
-The above function first solved IK inside to obtain the angle-vector such that the coordinate of the end-effector equals to ` *co* `. Then set the obtained angle-vector to ` *fetch* `. (I personally think this function is bit strange and conufsing. (For me it is more straightforward if the function return just sangle-vector without setting it `*fetch*`.) Note that you must care initial solution for IK. In the euslisp the angle-vector set to the robot is used as the initial solution. For example, int the above code I set it to " #f(0 0 0 0 0 0 0 0 0 0)" . Noting that iterative optimization takes place in solving IK, the solution will be change if you change the initial solution. Let's try with different initial solution:
+The above function first solved IK inside to obtain the angle-vector such that the coordinate of the end-effector equals to ` *co* `. Then set the obtained angle-vector to ` *fetch* `. (I personally think this function is bit strange and conufsing. (For me it is more straightforward if the function return just sangle-vector without setting it `*fetch*`.) Note that you must care initial solution for IK. In the euslisp the angle-vector set to the robot is used as the initial solution. For example, in the above code I set it to " #f(0 0 0 0 0 0 0 0 0 0)" . In solving IK you can set some key arguments. `:rotation-axis`, `check-collision` and `use-toros` is particurally important. If `:rotation-axis` is `nil` the IK is solved ignoreing orientation (rpy). If `:check-collision` is `nil` the collision between the links of robot is not considered. Please play with changing these arguments. 
+
+Noting that iterative optimization takes place in solving IK, the solution will be change if you change the initial solution. Let's try with different initial solution:
 ```
 (send *fetch* :angle-vector #f(20.0 75.6304 80.2141 -11.4592 98.5487 0.0 95.111 0.0 0.0 0.0))
 (send *fetch* :rarm :inverse-kinematics *co*
@@ -75,10 +77,18 @@ Now you will see different solution is obtained from the previous one.
 <img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_5.png" alt="none" title="day1_5" width="200">
 </div>
 
+Now let's check that actually inverse kinematics is solved by displaying `*co*` and the coordinate of end-effector `*co-endeffector*`.
+```
+(setq *co-endeffector* (send (send *fetch* :rarm :end-coords) :copy-worldcoords)) 
+(objects (list *fetch* *co* *co-endeffector*))
+```
 
-### check with irt viewe
-### initial 
-### say :rarm :copy-woorld-coords
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_6.png" alt="none" title="day1_6" width="200">
+</div>
+You can see the two coordinates (diplayed by white arrows) are equal to each other.
+
+### move-end-pos
 
 
 

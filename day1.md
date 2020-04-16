@@ -89,9 +89,13 @@ Now let's check that actually inverse kinematics is solved by displaying `*co*` 
 You can see the two coordinates (diplayed by white arrows) are equal to each other.
 
 ### move-end-pos
+under construction
 
-
-
-
-
+### better visualization by arrow-object 
+under constuction
+```
+(require "models/arrow-object.l")
+(setq *object-coords* (arrow))
+(send *object-coords* :newcoords (make-coords :pos object-pos :rpy #f(0 0 0)))
+```
 

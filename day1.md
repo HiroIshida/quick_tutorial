@@ -11,6 +11,9 @@ The `fetch` function is create an instance named `*fetch*` which is a geometrica
 ```
 (objects *fetch*)
 ```
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_1.png" alt="none" title="day1_1" width="200">
+</div>
 
 The robot model `*fetch*` contains the information of joints. The fetch robot has 10 joints, so let's look at state of these joints.
 ```
@@ -29,12 +32,22 @@ Now, let's set a custom angle vector to the robot model.
 (setq *av-zero* (float-vector 0 0 0 0 0 0 0 0 0 0))
 (send *fetch* :angle-vector *av-zero*)
 ```
+Please click the IRT-viewer previously opend by `objects` function, then the you will see the robot model is updated. 
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_2.png" alt="none" title="day1_2" width="200">
+</div>
+
+
 Maybe, you want to set specific joint instead of set all the joints angle at once. For the `shoulder_pan_joint` case for example, this can be done by:
 ```
 (let ((shoulder-pan-joint (send *fetch* :shoulder_pan_joint)))
     (send shoulder-pan-joint :joint-angle 60))
 ```
-The same thing can be done by `(setq *fetch* :shoulder_pan_joint :joint-angle 60)`, which is more common in jsk.
+Note that the same thing can be done by `(setq *fetch* :shoulder_pan_joint :joint-angle 60)`, which is more common in jsk. You will get following image:
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_2.png" alt="none" title="day1_3" width="200">
+</div>
+You will observe that only the state of the single joint is changed by compareing this figure and previous one.
 
 ### solving inverse kinematics
 Usually, in robotics, you want to guide the robot arm's end effector to a commanded pose (position and orientation). Thus, before sending an angle vector, you must know an angle vector with which the end effector will be the commanded pose. This can be done by solving inverse kinematics (if you are not familiar please google it). First, we create a coordinate (or a pose) `*co*` by

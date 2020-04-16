@@ -45,22 +45,40 @@ Maybe, you want to set specific joint instead of set all the joints angle at onc
 ```
 Note that the same thing can be done by `(setq *fetch* :shoulder_pan_joint :joint-angle 60)`, which is more common in jsk. You will get following image:
 <div align="center">
-<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_2.png" alt="none" title="day1_3" width="200">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_3.png" alt="none" title="day1_3" width="200">
 </div>
 You will observe that only the state of the single joint is changed by compareing this figure and previous one.
 
-### solving inverse kinematics
-Usually, in robotics, you want to guide the robot arm's end effector to a commanded pose (position and orientation). Thus, before sending an angle vector, you must know an angle vector with which the end effector will be the commanded pose. This can be done by solving inverse kinematics (if you are not familiar please google it). First, we create a coordinate (or a pose) `*co*` by
-``
-(setq *co* (make-coords :pos #f(800 0 1000) :rpy #f(0.0 0.3 1.54))) ;; #f(..) is a float-vector
+### solving inverse kinematics (IK)
+Usually, in robotics, you want to guide the robot arm's end effector to a commanded pose (position and orientation). Thus, before sending an angle vector, you must know an angle vector with which the end effector will be the commanded pose. This can be done by solving inverse kinematics (IK) (if you are not familiar please google it). First, we create a coordinate (or a pose) `*co*` by
 ```
-Then the following code will solver the inverse kinematics.
+(setq *co* (make-coords :pos #f(800 300 800) :rpy #f(0.0 0.1 0.1))) ;; #f(..) is a float-vector
 ```
-(send *fetch* :rarm :inverse-kinematics
-        (send *co-object* :copy-worldcoords)
+Then the following code will solver the IK:
+```
+(send *fetch* :angle-vector #f(0 0 0 0 0 0 0 0 0 0))
+(send *fetch* :rarm :inverse-kinematics *co*
         :rotation-axis t :check-collision t :use-torso nil)
 ```
-Now you can see
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_4.png" alt="none" title="day1_4" width="200">
+</div>
+
+The above function first solved IK inside to obtain the angle-vector such that the coordinate of the end-effector equals to ` *co* `. Then set the obtained angle-vector to ` *fetch* `. (I personally think this function is bit strange and conufsing. (For me it is more straightforward if the function return just sangle-vector without setting it `*fetch*`.) Note that you must care initial solution for IK. In the euslisp the angle-vector set to the robot is used as the initial solution. For example, int the above code I set it to " #f(0 0 0 0 0 0 0 0 0 0)" . Noting that iterative optimization takes place in solving IK, the solution will be change if you change the initial solution. Let's try with different initial solution:
+```
+(send *fetch* :angle-vector #f(20.0 75.6304 80.2141 -11.4592 98.5487 0.0 95.111 0.0 0.0 0.0))
+(send *fetch* :rarm :inverse-kinematics *co*
+        :rotation-axis t :check-collision t :use-torso nil)
+```
+Now you will see different solution is obtained from the previous one.
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_5.png" alt="none" title="day1_5" width="200">
+</div>
+
+
+### check with irt viewe
+### initial 
+### say :rarm :copy-woorld-coords
 
 
 

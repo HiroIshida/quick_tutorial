@@ -1,5 +1,5 @@
-## introduction to robot model
-before startgin this tutorial, please do `roscore` in other terminal.
+## Day1: playing geometric robot model in Euslisp
+Before startgin this tutorial, please do `roscore` in other terminal. 
 
 ### get information of joint angles of a robot
 

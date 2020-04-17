@@ -1,0 +1,8 @@
+- git:
+    local-name: fetchrobotics/fetch_msgs
+    uri: https://github.com/fetchrobotics/fetch_msgs.git
+    version: melodic-devel
+- git:
+    local-name: fetchrobotics/fetch_ros
+    uri: https://github.com/fetchrobotics/fetch_ros.git
+    version: melodic-devel

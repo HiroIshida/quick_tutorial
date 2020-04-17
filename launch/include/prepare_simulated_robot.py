@@ -43,10 +43,10 @@ arm_joint_names = ["shoulder_pan_joint", "shoulder_lift_joint", "upperarm_roll_j
 arm_joint_positions  = [0.9, 0, 0.20, -1.40, 0, 0, 0]
 
 head_joint_names = ["head_pan_joint", "head_tilt_joint"]
-head_joint_positions = [0.0, 0.0]
+head_joint_positions = [0.0, 0.9]
 
 torso_joint_names = ["torso_lift_joint"]
-torso_joint_positions = [0.3]
+torso_joint_positions = [0.38]
 
 if __name__ == "__main__":
     rospy.init_node("prepare_simulated_robot")

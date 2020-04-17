@@ -87,6 +87,7 @@ Now let's check that inverse kinematics is actually solved, by displaying `*co*`
 You can see the two coordinates (diplayed by white arrows) are equal to each other.
 
 ## TODO
+### apropos :methods 
 ### explaine :rarm
 ### move-end-pos
 *under construction*

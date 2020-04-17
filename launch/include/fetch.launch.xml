@@ -18,7 +18,9 @@
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) 
     -model fetch -param robot_description
-    -J shoulder_lift_joint 1.3
+    -J shoulder_pan_joint 0.9 
+    -J upperarm_roll_joint 0.2 
+    -J elbow_flex_joint -1.4
     "/>
 
   <node name="prepare_robot" pkg="quick_tutorial" type="prepare_simulated_robot.py" />

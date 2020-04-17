@@ -27,8 +27,18 @@
     <arg name="world_name" value="$(find quick_tutorial)/world/tabletop.world"/>
   </include>
 
-  <!-- Oh, you wanted a robot? -->
+  <!-- spawn robot -->
   <include file="$(find quick_tutorial)/launch/include/fetch.launch.xml" />
   <node name="odom_relay" pkg="topic_tools" type="relay" args="/odom /odom_combined" />
+
+  
+  <!-- spawn kettle -->
+  <param name="object_description" command="$(find xacro)/xacro.py $(find quick_tutorial)/urdf/kettle.xacro" />
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+    args="-param object_description -urdf 
+    -x 0.5 -y 0.6 -z 0.1 
+    -R 0.0 -P 0.0 -Y 0.0 
+    -model kettle 
+    -J kettle_joint 0.0"/>
 
 </launch>

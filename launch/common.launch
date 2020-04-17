@@ -33,12 +33,22 @@
 
   
   <!-- spawn kettle -->
-  <param name="object_description" command="$(find xacro)/xacro.py $(find quick_tutorial)/urdf/kettle.xacro" />
+  <param name="kettle_description" command="$(find xacro)/xacro.py $(find quick_tutorial)/urdf/kettle.xacro" />
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
-    args="-param object_description -urdf 
+    args="-param kettle_description -urdf 
     -x 0.5 -y 0.6 -z 0.1 
     -R 0.0 -P 0.0 -Y 0.0 
     -model kettle 
     -J kettle_joint 0.0"/>
+
+  <!-- spawn blue can -->
+  <param name="blue_can_description" textfile="$(find quick_tutorial)/urdf/blue_can.urdf" />
+  <node name="spawn_urdf2" pkg="gazebo_ros" type="spawn_model" 
+    args="-param blue_can_description -urdf
+    -x 0.8 -y 0.6 -z 0.3 
+    -R 0.3 -P 0.5 -Y 0.7 
+    -model blue_can
+    "/>
+
 
 </launch>

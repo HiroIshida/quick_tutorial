@@ -36,5 +36,6 @@
       <uri>model://room73b2-karimoku-table_static</uri>
       <pose>1.8 0.0 0.0 0.0 0.0 0.0</pose>
     </include>
+
   </world>
 </sdf>

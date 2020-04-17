@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <robot name="kettle" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find quick_tutorial)/urdf/kettle.gazebo" />
+
     <link name="base_link">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>

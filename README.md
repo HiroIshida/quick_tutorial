@@ -1,13 +1,12 @@
-### Instlation (same as yamaguchi demo)
+### Preparation
+
 ```bash
-mkdir -p catkin_ws/src
-cd catkin_ws/src
-git clone https://github.com/708yamaguchi/fetch_gazebo.git
-cd fetch_gazebo
-git checkout -t origin/demo-melodic
-cd ..
-rosdep install --from-paths . --ignore-src -y -r
-cd ..
+mkdir -p ~/tutorial_ws/src
+cd ~/tutorial_ws/src
+git clone https://github.com/jsk-ros-pkg/jsk_robot.git
+cd jsk_robot/jsk_fetch_robot
+rosdep install fetcheus -i -y -r
+cd ~/tutorial_ws 
 catkin build
 source devel/setup.bash
 ```

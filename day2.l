@@ -9,7 +9,8 @@
 (send *co-endeffector* :newcoords (send (send *fetch* :rarm :end-coords) :copy-worldcoords))
 (objects (list *fetch* *co-endeffector* *co-handle*))
 
-(setq *co-ik-target* (send *co-handle* :copy-worldcoords))
+(setq *co-ik-target* (arrow))
+(send *co-ik-target* :newcoords (send *co-handle* :copy-worldcoords))
 (send *co-ik-target* :translate #f(-80 0 0) :local)
 
 ;; solve ik

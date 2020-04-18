@@ -32,10 +32,14 @@ Now let's visualize the `*fetch*`, `*co-handle*` and coordinate of the end-effec
 
 Rather than directory guide the end-effector to `*co-handle*`, let's guide to a coordinate `*co-ik-target*` which is slightly behind the target:
 ```
-(setq *co-ik-target* (send *co-handle* :copy-worldcoords))
+(setq *co-ik-target* (arrow))
+(send *co-ik-target* :newcoords (send *co-handle* :copy-worldcoords))
 (send *co-ik-target* :translate #f(-80 0 0) :local)
 ```
 Because we set `:local`, the translation is done w.r.t. `*co-ik-target*` itself. Not that you can also set `:world`. By calling `(objects (list *fetch* *co-endeffector* *co-handle* *co-ik-target*))` you will see the following figure.
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day2_1.png" alt="none" title="day2_1" width="300">
+</div>
 
 Now we solve the IK,
 ```

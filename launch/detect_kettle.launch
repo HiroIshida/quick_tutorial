@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-  <arg name="input" default="/head_camera/depth_downsample/points"/>
+  <arg name="input" default="/head_camera/depth_registered/points"/>
 
   <node name="attention_clipper" pkg="nodelet" type="nodelet"
     args="standalone jsk_pcl/AttentionClipper"

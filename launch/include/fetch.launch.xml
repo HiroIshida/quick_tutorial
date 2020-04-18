@@ -30,7 +30,7 @@
   <param name="robot/version" value="0.0.1" />
 
   <!-- Head Camera Pipeline -->
-  <include file="$(find quick_tutorial)/launch/include/head_camera.launch.xml" />
+  <!--include file="$(find quick_tutorial)/launch/include/head_camera.launch.xml" /-->
 
   <!-- Publish base_scan_raw if anything subscribes to it -->
   <node name="publish_base_scan_raw" pkg="topic_tools" type="relay" args="base_scan base_scan_raw" >

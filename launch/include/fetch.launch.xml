@@ -16,16 +16,21 @@
 
   <!-- Put a robot in gazebo, make it look pretty -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) -model fetch -param robot_description"/>
+    args="-urdf -x $(arg x) -y $(arg y) -z $(arg z) -Y $(arg yaw) 
+    -model fetch -param robot_description
+    -J shoulder_pan_joint 0.9 
+    -J upperarm_roll_joint 0.2 
+    -J elbow_flex_joint -1.4
+    "/>
 
-  <node name="prepare_robot" pkg="fetch_gazebo" type="prepare_simulated_robot.py" />
+  <node name="prepare_robot" pkg="quick_tutorial" type="prepare_simulated_robot.py" />
 
   <!-- Give this robot a serial number and version -->
   <param name="robot/serial" value="ABCDEFGHIJKLMNOPQRSTUVWX" />
   <param name="robot/version" value="0.0.1" />
 
   <!-- Head Camera Pipeline -->
-  <include file="$(find fetch_gazebo)/launch/include/head_camera.launch.xml" />
+  <!--include file="$(find quick_tutorial)/launch/include/head_camera.launch.xml" /-->
 
   <!-- Publish base_scan_raw if anything subscribes to it -->
   <node name="publish_base_scan_raw" pkg="topic_tools" type="relay" args="base_scan base_scan_raw" >

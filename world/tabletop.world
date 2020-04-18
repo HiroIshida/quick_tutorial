@@ -34,7 +34,7 @@
     <include>
       <name>room73b2-karimoku-table-0</name>
       <uri>model://room73b2-karimoku-table_static</uri>
-      <pose>1.8 0.0 0.0 0.0 0.0 0.0</pose>
+      <pose>0.9 0.0 0.0 0.0 0.0 0.0</pose>
     </include>
 
   </world>

@@ -29,8 +29,10 @@
   <param name="robot/serial" value="ABCDEFGHIJKLMNOPQRSTUVWX" />
   <param name="robot/version" value="0.0.1" />
 
-  <!-- Head Camera Pipeline -->
-  <!--include file="$(find quick_tutorial)/launch/include/head_camera.launch.xml" /-->
+  <!-- downsampling 
+       Note that we dont use the original one (head_camera.launch) as its unstable. rather, we use pcl_ros's vexelGrid filtering to get downsamped points -->
+  <!--include file="$(find fetch_gazebo)/launch/include/head_camera.launch.xml" /-->
+  <include file="$(find quick_tutorial)/launch/include/downsample.launch"/>
 
   <!-- Publish base_scan_raw if anything subscribes to it -->
   <node name="publish_base_scan_raw" pkg="topic_tools" type="relay" args="base_scan base_scan_raw" >

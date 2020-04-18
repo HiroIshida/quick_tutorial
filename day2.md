@@ -1,13 +1,13 @@
 ## Day2: control simulated robot 
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day2_whole.gif" alt="none" title="day2_1" width="400">
+</div>
 ### we call real robot.
 Before starting this tutorial, please run
 ```
 roslaunch quick_tutorial common.launch
 ```
-in other terminal. You will get the gazebo window as: 
-<div align="center">
-<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day2_1.png" alt="none" title="day2_1" width="300">
-</div>
+in other terminal. 
 
 ### state potentio-vectro
 ### send command workflow

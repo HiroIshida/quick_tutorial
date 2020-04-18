@@ -19,3 +19,4 @@ source /opt/ros/melodic/setup.bash
 catkin build fetcheus quick_tutorial jsk_maps
 ```
 
+maybe kinetic user must install `depth_image_proc` from source

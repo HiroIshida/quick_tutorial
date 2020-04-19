@@ -10,8 +10,8 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <!-- get this from source -->
-  <exec_depend>jsk_maps</exec_depend>
   <exec_depend>fetcheus</exec_depend>
+  <exec_depend>fetch_gazebo_demo</exec_depend>
 
   <!-- rosdep -->
   <exec_depend>robot_state_pubclisher</exec_depend>
@@ -22,7 +22,5 @@
   <exec_depend>fetch_navigation</exec_depend>
   <exec_depend>moveit_commander</exec_depend>
   <exec_depend>moveit_python</exec_depend>
-  <exec_depend>simple_grasping</exec_depend>
-  <exec_depend>teleop_twist_keyboard</exec_depend>
 
 </package>

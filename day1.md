@@ -56,7 +56,7 @@ Usually, in robotics, you want to guide the robot arm's end effector to a comman
 Then the following code will solver the IK:
 ```
 (send *fetch* :angle-vector #f(0 0 0 0 0 0 0 0 0 0))
-(send *fetch* :rarm :inverse-kinematics *co*
+(send *fetch* :rarm :inverse-kinematics *co* ;; fetch robot has only :rarm. PR2 had both :larm and :rarm
         :rotation-axis t :check-collision t :use-torso nil)
 ```
 <div align="center">
@@ -77,6 +77,7 @@ Now you will see a solution (angle vector) different from the previosu one is ob
 
 Now let's check that inverse kinematics is actually solved, by displaying `*co*` and the coordinate of end-effector `*co-endeffector*`.
 ```
+;; fetch robot has only :rarm. PR2 had both :larm and :rarm
 (setq *co-endeffector* (send (send *fetch* :rarm :end-coords) :copy-worldcoords)) 
 (objects (list *fetch* *co* *co-endeffector*))
 ```
@@ -86,18 +87,20 @@ Now let's check that inverse kinematics is actually solved, by displaying `*co*`
 </div>
 You can see the two coordinates (diplayed by white arrows) are equal to each other.
 
-## TODO
-### apropos :methods 
-### explaine :rarm
-### move-end-pos
-*under construction*
-### flaot-vector
+### Other notes
+1. A pitfall for float vector is that, if you call function inside `#f( )` (e.g. `#f(0 0 (deg2rad 30))`) you will get error:
+```
+error: number expected in read-float-array
+```
+To avoid this issue, you can simply call `(float-vector 0 0 (deg2rad 30))` instead.
 
-### better visualization by arrow-object 
-*under constuction*
+2. In the above tutorial, visualization of coordinate was not pretty. It was drawn by thine ugly white arrows. Rather, I recommend you to use arrow-object as follows:
 ```
 (require "models/arrow-object.l")
-(setq *object-coords* (arrow))
-(send *object-coords* :newcoords (make-coords :pos object-pos :rpy #f(0 0 0)))
+(setq *co* (arrow))
+(send *co* :newcoords (make-coords :pos #f(500 500 500) :rpy #f(0 0 0)))
+(objects *co*)
 ```
-
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/arrow.png" alt="none" title="arrow" width="200">
+</div>

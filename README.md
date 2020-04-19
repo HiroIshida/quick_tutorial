@@ -1,4 +1,8 @@
-### Preparation
+### Quick Tutorial
+This package provides quick tutorials in a step-by-step manner. In [day1](day1.md), you will get to know how to kinematically simulate fetch robot inside Euslisp. In [day2](day2.md), you will be familiar with the workflow for controlling a real robot using Euslisp. In day3 (under construction), you will know how to implement simple sense-and-act type robotic manipulation.
+
+### Installation
+We assume you already installed ROS melodic.
 
 ```bash
 mkdir ~/tutorial_ws/src -p

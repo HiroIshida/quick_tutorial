@@ -42,11 +42,6 @@ Maybe, you want to set a specific joint instead of setting all the joints angles
 (let ((shoulder-pan-joint (send *fetch* :shoulder_pan_joint)))
     (send shoulder-pan-joint :joint-angle 60))
 ```
-Note that the same thing can be done by `(setq *fetch* :shoulder_pan_joint :joint-angle 60)`, which is more common in jsk. You will get the following image:
-<div align="center">
-<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_3.png" alt="none" title="day1_3" width="200">
-</div>
-You will observe that only the state of the single joint is changed by comparing this figure and the previous one.
 
 ### solving inverse kinematics (IK)
 Usually, in robotics, you want to guide the robot arm's end effector to a commanded pose (position and orientation). Thus, before sending an angle vector, you must know an angle vector with which the end effector will be the commanded pose. This can be done by solving inverse kinematics (IK) (if you are not familiar please google it). First, we create a coordinate (or a pose) `*co*` by
@@ -62,7 +57,10 @@ Then the following code will solver the IK:
 <div align="center">
 <img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_4.png" alt="none" title="day1_4" width="200">
 </div>
-The above function first solved IK inside to obtain the angle-vector such that the coordinate of the end-effector equals to ` *co* `. Then set the obtained angle-vector to ` *fetch* `. (I personally think this function is a bit strange and confusing. (For me it is more straightforward if the function returns just the angle-vector without setting it `*fetch*`.) Note that you must care initial solution for IK. In the Euslisp, the angle-vector set to the robot is used as the initial solution. For example, in the above code I set it to " #f(0 0 0 0 0 0 0 0 0 0)" . In solving IK you can set some key arguments. `:rotation-axis`, `check-collision` and `use-torso` is particularly important. If `:rotation-axis` is `nil` the IK is solved ignoring orientation (rpy). If `:check-collision` is `nil` the collision between the links of the robot is not considered. Please play with changing these arguments. 
+
+In `:inverse-kinematics`, IK is solved and the obtained angle vector is applied to ` *fetch* `. Note that you must care initial solution for IK. In the Euslisp, the angle-vector set to the robot before solving IK is the initial solution of IK. For example, `#f((0 0 0 0 0 0 0 0 0 0)` is the initial solution.
+
+In solving IK you can set some key arguments. `:rotation-axis`, `check-collision` and `use-torso` is particularly important. If `:rotation-axis` is `nil` the IK is solved ignoring orientation (rpy). If `:check-collision` is `nil` the collision between the links of the robot is not considered. Please play with changing these arguments. 
 
 Noting that iterative optimization takes place in solving IK, the solution will be changed if you change the initial solution. Let's try with a different initial solution:
 ```lisp
@@ -70,10 +68,7 @@ Noting that iterative optimization takes place in solving IK, the solution will 
 (send *fetch* :rarm :inverse-kinematics *co*
         :rotation-axis t :check-collision t :use-torso nil)
 ```
-Now you will see a solution (angle vector) different from the previosu one is obtained.
-<div align="center">
-<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_5.png" alt="none" title="day1_5" width="200">
-</div>
+Now you must see a solution (angle vector) different from the previosu one is obtained (please look at irt-viewer). 
 
 Now let's check that inverse kinematics is actually solved, by displaying `*co*` and the coordinate of end-effector `*co-endeffector*`.
 ```lisp

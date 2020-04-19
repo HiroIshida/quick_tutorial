@@ -50,7 +50,7 @@ Usually, in robotics, you want to guide the robot arm's end effector to a comman
 ```
 Then the following code will solver the IK:
 ```lisp
-(send *fetch* :angle-vector #f(0 0 0 0 0 0 0 0 0 0))
+(send *fetch* :angle-vector #f(0 0 0 0 0 0 0 0 0 0)) ;; initial solution
 (send *fetch* :rarm :inverse-kinematics *co* ;; fetch robot has only :rarm. PR2 had both :larm and :rarm
         :rotation-axis t :check-collision t :use-torso nil)
 ```
@@ -58,17 +58,7 @@ Then the following code will solver the IK:
 <img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_4.png" alt="none" title="day1_4" width="200">
 </div>
 
-In `:inverse-kinematics`, IK is solved and the obtained angle vector is applied to ` *fetch* `. Note that you must care initial solution for IK. In the Euslisp, the angle-vector set to the robot before solving IK is the initial solution of IK. For example, `#f((0 0 0 0 0 0 0 0 0 0)` is the initial solution.
-
-In solving IK you can set some key arguments. `:rotation-axis`, `check-collision` and `use-torso` is particularly important. If `:rotation-axis` is `nil` the IK is solved ignoring orientation (rpy). If `:check-collision` is `nil` the collision between the links of the robot is not considered. Please play with changing these arguments. 
-
-Noting that iterative optimization takes place in solving IK, the solution will be changed if you change the initial solution. Let's try with a different initial solution:
-```lisp
-(send *fetch* :angle-vector #f(20.0 75.6304 80.2141 -11.4592 98.5487 0.0 95.111 0.0 0.0 0.0))
-(send *fetch* :rarm :inverse-kinematics *co*
-        :rotation-axis t :check-collision t :use-torso nil)
-```
-Now you must see a solution (angle vector) different from the previosu one is obtained (please look at irt-viewer). 
+In `:inverse-kinematics`, IK is solved and the obtained angle vector is applied to ` *fetch* `. Note that you must care initial solution for IK. In the Euslisp, the angle-vector set to the robot before solving IK is the initial solution of IK. For example, `#f((0 0 0 0 0 0 0 0 0 0)` is the initial solution. In solving IK you can set some key arguments. `:rotation-axis`, `check-collision` and `use-torso` is particularly important. If `:rotation-axis` is `nil` the IK is solved ignoring orientation (rpy). If `:check-collision` is `nil` the collision between the links of the robot is not considered. Please play with changing these arguments. 
 
 Now let's check that inverse kinematics is actually solved, by displaying `*co*` and the coordinate of end-effector `*co-endeffector*`.
 ```lisp
@@ -81,6 +71,9 @@ Now let's check that inverse kinematics is actually solved, by displaying `*co*`
 <img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_6.png" alt="none" title="day1_6" width="200">
 </div>
 You can see the two coordinates (diplayed by white arrows) are equal to each other.
+
+Note that a solution of IK will be changed if initial solution is changed. (please try different initial solution and solve IK). At the worst case, IK cannot be solved (usually happens). Intuitively speaking, if the target end-effector pose is far from the initial pose, solving IK becomes difficult and likely to be failed. To get over this problem, it is effective to prepare "mid pose" in the middle of the current and targeted end effector pose. Then solve IK for "mid pose" first, and by using obtained angle-vector for "mid-pose" as an initial solution, solve IK for target pose. (TODO: need editing)
+
 
 ### Other notes
 1. A pitfall for float vector is that, if you call function inside `#f( )` (e.g. `#f(0 0 (deg2rad 30))`) you will get error:

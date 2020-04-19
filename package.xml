@@ -11,6 +11,7 @@
 
   <!-- get this from source -->
   <exec_depend>fetcheus</exec_depend>
+  <exec_depend>eusurdf</exec_depend>
   <exec_depend>fetch_gazebo_demo</exec_depend>
 
   <!-- rosdep -->

@@ -44,14 +44,14 @@ Maybe, you want to set a specific joint instead of setting all the joints angles
 ```
 
 ### solving inverse kinematics (IK)
-Usually, in robotics, you want to guide the robot arm's end effector to a commanded pose (position and orientation). Thus, before sending an angle vector, you must know an angle vector with which the end effector will be the commanded pose. This can be done by solving inverse kinematics (IK) (if you are not familiar please google it). First, we create a coordinate (or a pose) `*co*` by
+Usually, in robotics, you want to guide the robot arm's end effector to a commanded pose (position and orientation). Thus, before sending an angle vector, you must know an angle vector with which the end effector will be the commanded pose. This can be done by solving inverse kinematics (IK) (if you are not familiar please google it). First, we create a coordinate (or a pose) `*co-target*` by
 ```lisp
-(setq *co* (make-coords :pos #f(800 300 800) :rpy #f(0.0 0.1 0.1))) ;; #f(..) is a float-vector
+(setq *co-target* (make-coords :pos #f(800 300 800) :rpy #f(0.0 0.1 0.1))) ;; #f(..) is a float-vector
 ```
 Then the following code will solver the IK:
 ```lisp
 (send *fetch* :angle-vector #f(0 0 0 0 0 0 0 0 0 0)) ;; initial solution
-(send *fetch* :rarm :inverse-kinematics *co* ;; fetch robot has only :rarm. PR2 had both :larm and :rarm
+(send *fetch* :rarm :inverse-kinematics *co-target* ;; fetch robot has only :rarm. PR2 had both :larm and :rarm
         :rotation-axis t :check-collision t :use-torso nil)
 ```
 <div align="center">
@@ -60,19 +60,36 @@ Then the following code will solver the IK:
 
 In `:inverse-kinematics`, IK is solved and the obtained angle vector is applied to ` *fetch* `. Note that you must care initial solution for IK. In the Euslisp, the angle-vector set to the robot before solving IK is the initial solution of IK. For example, `#f((0 0 0 0 0 0 0 0 0 0)` is the initial solution. In solving IK you can set some key arguments. `:rotation-axis`, `check-collision` and `use-torso` is particularly important. If `:rotation-axis` is `nil` the IK is solved ignoring orientation (rpy). If `:check-collision` is `nil` the collision between the links of the robot is not considered. Please play with changing these arguments. 
 
-Now let's check that inverse kinematics is actually solved, by displaying `*co*` and the coordinate of end-effector `*co-endeffector*`.
-```lisp
-;; fetch robot has only :rarm. PR2 had both :larm and :rarm
-(setq *co-endeffector* (send (send *fetch* :rarm :end-coords) :copy-worldcoords)) 
-(objects (list *fetch* *co* *co-endeffector*))
-```
-
 <div align="center">
 <img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/day1_6.png" alt="none" title="day1_6" width="200">
 </div>
 You can see the two coordinates (diplayed by white arrows) are equal to each other.
 
 Note that a solution of IK will be changed if initial solution is changed. (please try different initial solution and solve IK). At the worst case, IK cannot be solved (usually happens). Intuitively speaking, if the target end-effector pose is far from the initial pose, solving IK becomes difficult and likely to be failed. To get over this problem, it is effective to prepare "mid pose" in the middle of the current and targeted end effector pose. Then solve IK for "mid pose" first, and by using obtained angle-vector for "mid-pose" as an initial solution, solve IK for target pose. (TODO: need editing)
+
+### Visualization 
+It is quite helpful if geometric relation between current and target coordinate of end effector. You can get the current coordinate of the end effector by 
+```
+(setq *co-endeffector* (send *fetch* :rarm :end-coords))
+```
+By using this it is possible to make arrow object:
+```
+(require "models/arrow-object.l") ;; you need to load this 
+(setq *co-endeffector-vis* (arrow))
+(send *co-endeffector-vis* :newcoords (send *co-endeffector* :copy-worldcoords))
+```
+In the same manner let's make arrow object of target coordinate
+```
+(setq *co-target-vis* (arrow))
+(send *co-target-vis* :newcoords (make-coords :pos #f(800 300 800) :rpy #f(0.0 0.1 0.1)))
+```
+And visualize all by
+```
+(objects (list *fetch* *co-endeffector-vis* *co-target-vis*))
+```
+<div align="center">
+<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/vis.png" alt="none" title="vis" width="200">
+</div>
 
 
 ### Other notes
@@ -82,13 +99,6 @@ error: number expected in read-float-array
 ```
 To avoid this issue, you can simply call `(float-vector 0 0 (deg2rad 30))` instead.
 
-2. In the above tutorial, visualization of coordinate was not pretty. It was drawn by thin ugly white arrows. Rather, I recommend you to use arrow-object as follows:
-```lisp
-(require "models/arrow-object.l")
-(setq *co* (arrow))
-(send *co* :newcoords (make-coords :pos #f(500 500 500) :rpy #f(0 0 0)))
-(objects *co*)
-```
-<div align="center">
-<img src="https://raw.githubusercontent.com/HiroIshida/quick_tutorial/master/images/arrow.png" alt="none" title="arrow" width="200">
-</div>
+### TODO (need editing)
+2. `:methods`
+3. `apropos`

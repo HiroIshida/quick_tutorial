@@ -36,7 +36,7 @@ Rather than directory guide the end-effector to `*co-handle*`, let's guide to a 
 (send *co-ik-target* :newcoords (send *co-handle* :copy-worldcoords))
 (send *co-ik-target* :translate #f(-80 0 0) :local)
 ```
-Because we set `:local`, the translation is done w.r.t. `*co-ik-target*` itself. Not that you can also set `:world`. We don't do it here but you can also rotate the coordinate around a specified axis (x, y, z) by a specified angle. For example, rotation around y-axis by 0.1 rad is `(send *co* :rotate 0.1 :y :local)`.
+Because we set `:local`, the translation is done w.r.t. `*co-ik-target*` itself. Note that you can also set `:world`. We don't do it here but you can also rotate the coordinate around a specified axis (x, y, z) by a specified angle. For example, rotation around y-axis by 0.1 rad is `(send *co* :rotate 0.1 :y :local)`.
 
 By calling `(objects (list *fetch* *co-endeffector* *co-handle* *co-ik-target*))` you will see the following figure.
 <div align="center">

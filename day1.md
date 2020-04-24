@@ -42,6 +42,7 @@ Maybe, you want to set a specific joint instead of setting all the joints angles
 (let ((shoulder-pan-joint (send *fetch* :shoulder_pan_joint)))
     (send shoulder-pan-joint :joint-angle 60))
 ```
+(also please check [this note](#access-to-joint-in-jsk-style))
 
 ### solving inverse kinematics (IK)
 Usually, in robotics, you want to guide the robot arm's end effector to a commanded pose (position and orientation). Thus, before sending an angle vector, you must know an angle vector with which the end effector will be the commanded pose. This can be done by solving inverse kinematics (IK) (if you are not familiar please google it). First, we create a coordinate (or a pose) `*co-target*` by
@@ -92,13 +93,28 @@ And visualize all by
 </div>
 
 
-### Other notes
-1. A pitfall for float vector is that, if you call function inside `#f( )` (e.g. `#f(0 0 (deg2rad 30))`) you will get error:
+### Other important things
+#### float vector 
+
+A pitfall for float vector is that, if you call function inside `#f( )` (e.g. `#f(0 0 (deg2rad 30))`) you will get error:
 ```lisp
 error: number expected in read-float-array
 ```
 To avoid this issue, you can simply call `(float-vector 0 0 (deg2rad 30))` instead.
 
+#### access to joint in jsk style 
+
+In the above tutorials, to access a joint object I used like `(send *fetch* :shoulder_pan_joint)`. The another equivalent code to do this is 
+```
+(send *fetch* :rarm :shoulder-y) ;; y indcates rotation around `yaw` 
+```
+The mapping from the jsk-style notation to official notation is given in [fetch.yaml](https://github.com/jsk-ros-pkg/jsk_robot/blob/master/jsk_fetch_robot/fetcheus/fetch.yaml). Similarly, to access `head_pan_joint`, you can use following two equivalent ways:
+```
+(send *fetch* :head_pan_joint)
+(send *fetch* :head :neck-y);; jsk style
+```
+
 ### TODO (need editing)
+1. add `draw-on`. (will be edited after some response in  https://github.com/euslisp/EusLisp/issues/426)
 2. `:methods`
 3. `apropos`
